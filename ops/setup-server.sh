@@ -42,6 +42,16 @@ ok "folder: ${BK_DIR:-unknown}"
 ok "host port: ${BK_PORT:-none}"
 ok "networks: $BK_NETS"
 
+# Where Blazed Kitty keeps its AliExpress sign-in (/app/data). FreakyTimes reads it read-only, so both stores share
+# one AliExpress app: an account only gets one dropshipping app, and signing in twice could cancel the first sign-in.
+BK_DATA=$(docker inspect -f '{{range .Mounts}}{{if eq .Destination "/app/data"}}{{if .Name}}vol:{{.Name}}{{else}}bind:{{.Source}}{{end}}{{end}}{{end}}' "$BK_CID")
+if [ -n "$BK_DATA" ] && docker exec "$BK_CID" test -f /app/data/aliexpress.json 2>/dev/null; then
+  ok "AliExpress sign-in: shared from Blazed Kitty (${BK_DATA#*:})"
+else
+  warn "Blazed Kitty has no saved AliExpress sign-in to share yet"
+  BK_DATA=""
+fi
+
 # Networks shared with a proxy (anything that isn't Blazed Kitty's own default network).
 BK_PROJECT=$(docker inspect -f '{{index .Config.Labels "com.docker.compose.project"}}' "$BK_CID" 2>/dev/null || true)
 [ "$BK_PROJECT" = "<no value>" ] && BK_PROJECT=
@@ -117,8 +127,16 @@ fi
   echo "    environment:"
   echo "      - NEXT_PUBLIC_SITE_URL=https://$DOMAIN"
   echo "      - DATA_DIR=/app/data"
+  if [ -n "$BK_DATA" ]; then
+    echo "      - ALIEXPRESS_TOKEN_FILE=/app/ae-shared/aliexpress.json"
+    echo "      - ALIEXPRESS_TOKEN_READONLY=true"
+  fi
   echo "    volumes:"
   echo "      - ft-data:/app/data"
+  case "$BK_DATA" in
+    vol:*) echo "      - bk-data:/app/ae-shared:ro" ;;
+    bind:*) echo "      - ${BK_DATA#bind:}:/app/ae-shared:ro" ;;
+  esac
   if [ "$PROXY" = traefik ]; then
     echo "    labels:"
     echo "$TRAEFIK_LABELS" | while IFS= read -r line; do
@@ -141,6 +159,7 @@ fi
   echo "      options: { max-size: 10m, max-file: \"3\" }"
   echo "volumes:"
   echo "  ft-data: {}"
+  case "$BK_DATA" in vol:*) echo "  bk-data: { external: true, name: ${BK_DATA#vol:} }" ;; esac
   if [ -n "$SHARED_NETS" ]; then
     echo "networks:"
     for n in $SHARED_NETS; do echo "  $n: { external: true }"; done
@@ -234,6 +253,11 @@ ok "store answers inside the server: ${code:-no answer}"
 code2=$(curl -s -o /dev/null -w '%{http_code}' -H "Host: $DOMAIN" http://127.0.0.1/ || true)
 ok "proxy answers for $DOMAIN on port 80: ${code2:-no answer}"
 
+if [ -n "$BK_DATA" ]; then
+  ae=$(docker exec freaky-times wget -qO- --header "X-Admin-Token: $(grep -E '^ADMIN_TOKEN=' "$APP/.env" | cut -d= -f2-)" http://127.0.0.1:3000/api/aliexpress/admin 2>/dev/null || true)
+  case "$ae" in *'"connected":true'*) ok "AliExpress: connected through Blazed Kitty's sign-in" ;; *) warn "AliExpress check said: ${ae:-no answer}" ;; esac
+fi
+
 TOKEN=$(grep -E '^ADMIN_TOKEN=' "$APP/.env" | cut -d= -f2-)
 cat <<EOF
 
@@ -241,6 +265,6 @@ Done.
   Store folder:   $APP
   Admin token:    $TOKEN   (keep this private)
   Import list:    https://$DOMAIN/admin/queue
-  AliExpress:     https://$DOMAIN/api/aliexpress/connect?key=$TOKEN
+  AliExpress:     $( [ -n "$BK_DATA" ] && echo "shared with Blazed Kitty, nothing to do" || echo "https://$DOMAIN/api/aliexpress/connect?key=$TOKEN" )
   Still to add:   STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET in $APP/.env, then: cd $APP && sudo docker compose up -d
 EOF

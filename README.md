@@ -80,6 +80,6 @@ After it runs:
 1. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` from the FreakyTimes Stripe account to `/docker/freaky-times/.env`, then `cd /docker/freaky-times && sudo docker compose up -d`.
 2. Stripe Dashboard → Webhooks → add `https://freakytimes.com/api/stripe-webhook` with `checkout.session.completed` and `checkout.session.async_payment_succeeded`.
 3. Stripe → Settings → Business → Public details: set the statement descriptor to something neutral like `FT GOODS`, since the FAQ promises a neutral name on card statements.
-4. AliExpress Open Platform → your app: add `https://freakytimes.com/api/aliexpress/callback` as a callback URL, then open the AliExpress link the script printed.
+4. AliExpress: nothing to do when Blazed Kitty is signed in. An AliExpress account only gets one dropshipping app, so FreakyTimes reads Blazed Kitty's saved sign-in read-only (`ALIEXPRESS_TOKEN_FILE` + `ALIEXPRESS_TOKEN_READONLY=true`) and Blazed Kitty keeps it fresh.
 
 `ops/docker-compose.yml` is a plain example of the same setup, for doing it by hand.

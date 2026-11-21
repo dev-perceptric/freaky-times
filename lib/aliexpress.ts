@@ -6,7 +6,11 @@ import path from 'node:path';
 // go to /sync; REST APIs like "/auth/token/create" go to /rest + path.
 const GATEWAY = 'https://api-sg.aliexpress.com';
 const dataDir = () => process.env.DATA_DIR || path.join(process.cwd(), 'data');
-const tokenFile = () => path.join(dataDir(), 'aliexpress.json');
+// ALIEXPRESS_TOKEN_FILE points at another store's saved sign-in (Blazed Kitty's, mounted read-only), so both stores
+// share one AliExpress app and account. With ALIEXPRESS_TOKEN_READONLY=true this store only reads that file and
+// never renews it: the store that owns the sign-in keeps it fresh, and a second renewal could cancel it.
+const tokenFile = () => process.env.ALIEXPRESS_TOKEN_FILE || path.join(dataDir(), 'aliexpress.json');
+const readOnly = () => process.env.ALIEXPRESS_TOKEN_READONLY === 'true';
 
 export class AliExpressError extends Error {
   constructor(message: string, public code?: string) {
@@ -71,7 +75,8 @@ interface Tokens {
 let memo: Tokens | null = null;
 
 async function loadTokens(): Promise<Tokens | null> {
-  if (memo) return memo;
+  // A shared sign-in can be renewed by the other store at any time, so read it fresh every time.
+  if (memo && !readOnly()) return memo;
   try {
     memo = JSON.parse(await fs.readFile(tokenFile(), 'utf8'));
     return memo;
@@ -92,6 +97,7 @@ async function loadTokens(): Promise<Tokens | null> {
 
 async function saveTokens(t: Tokens) {
   memo = t;
+  if (readOnly()) return false;
   try {
     await fs.mkdir(dataDir(), { recursive: true });
     await fs.writeFile(tokenFile(), JSON.stringify(t), { mode: 0o600 });
@@ -121,8 +127,9 @@ export async function connectWithCode(code: string) {
 async function accessToken() {
   const t = await loadTokens();
   if (!t) throw new AliExpressError('AliExpress is not connected yet. Open /api/aliexpress/connect first.', 'NOT_CONNECTED');
-  // Renew when less than an hour is left.
-  if (t.access_token && t.expire_time - Date.now() > 3600e3) return t.access_token;
+  // Renew when less than an hour is left. A shared sign-in is used until it runs out; the other store renews it.
+  if (t.access_token && t.expire_time - Date.now() > (readOnly() ? 60e3 : 3600e3)) return t.access_token;
+  if (readOnly()) throw new AliExpressError('The shared AliExpress sign-in has run out. Renew it from the store that owns it.', 'EXPIRED');
   return (await refresh(t)).access_token;
 }
 
@@ -138,6 +145,7 @@ async function refresh(t: Tokens) {
  * (a day, renewable for two), so renew whenever either one is getting close.
  */
 export async function keepAliExpressAlive() {
+  if (readOnly()) return 'fresh';
   const t = await loadTokens();
   if (!t) return 'not connected';
   const now = Date.now();
@@ -149,7 +157,7 @@ export async function keepAliExpressAlive() {
 export async function connectionStatus() {
   const t = await loadTokens();
   if (!t) return { connected: false as const };
-  return { connected: true as const, account: t.account ?? t.user_nick, accessExpires: new Date(t.expire_time).toISOString(), refreshExpires: new Date(t.refresh_token_valid_time).toISOString() };
+  return { connected: true as const, shared: readOnly(), account: t.account ?? t.user_nick, accessExpires: new Date(t.expire_time).toISOString(), refreshExpires: new Date(t.refresh_token_valid_time).toISOString() };
 }
 
 export function authorizeUrl(redirectUri: string, state: string) {
