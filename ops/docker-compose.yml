@@ -1,0 +1,25 @@
+# FreakyTimes on the OVH server. Put this file in /docker/freaky-times/ next to a .env file (see .env.example),
+# then run: sudo docker compose up -d
+# The server's autodeploy container (set up from the blazed-kitty repo) sees the ghcr.io/dev-perceptric image and
+# updates the store on its own after every push to main.
+services:
+  web:
+    image: ghcr.io/dev-perceptric/freaky-times:latest
+    container_name: freaky-times
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - NEXT_PUBLIC_SITE_URL=https://freakytimes.com
+    # Change 3001 if that port is taken on the server. Point freakytimes.com at it in the reverse proxy.
+    ports:
+      - "127.0.0.1:3001:3000"
+    volumes:
+      - ft-data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  ft-data: {}

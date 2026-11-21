@@ -1,0 +1,770 @@
+{
+ "sub": {
+  "bra-sets": [
+   [
+    "lace-bra-set",
+    "Lace Bra Sets"
+   ],
+   [
+    "mesh-bra-set",
+    "Mesh & Sheer Sets"
+   ],
+   [
+    "three-piece-set",
+    "Three Piece Sets"
+   ],
+   [
+    "garter-set",
+    "Sets with Garters"
+   ],
+   [
+    "strappy-set",
+    "Strappy Sets"
+   ]
+  ],
+  "bodysuits": [
+   [
+    "lace-bodysuit",
+    "Lace Bodysuits"
+   ],
+   [
+    "mesh-bodysuit",
+    "Mesh Bodysuits"
+   ],
+   [
+    "teddy",
+    "Teddies"
+   ],
+   [
+    "cut-out-bodysuit",
+    "Cut-Out Bodysuits"
+   ],
+   [
+    "long-sleeve-bodysuit",
+    "Long Sleeve Bodysuits"
+   ]
+  ],
+  "babydolls": [
+   [
+    "babydoll",
+    "Babydolls"
+   ],
+   [
+    "chemise",
+    "Chemises"
+   ],
+   [
+    "lace-babydoll",
+    "Lace Babydolls"
+   ],
+   [
+    "mesh-babydoll",
+    "Sheer Babydolls"
+   ]
+  ],
+  "corsets": [
+   [
+    "corset",
+    "Corsets"
+   ],
+   [
+    "bustier",
+    "Bustiers"
+   ],
+   [
+    "waist-cincher",
+    "Waist Cinchers"
+   ],
+   [
+    "corset-set",
+    "Corset Sets"
+   ]
+  ],
+  "bras": [
+   [
+    "bralette",
+    "Bralettes"
+   ],
+   [
+    "push-up-bra",
+    "Push-Up Bras"
+   ],
+   [
+    "balconette",
+    "Balconettes"
+   ],
+   [
+    "cupless-bra",
+    "Cupless & Open Bras"
+   ]
+  ],
+  "panties": [
+   [
+    "thong",
+    "Thongs"
+   ],
+   [
+    "g-string",
+    "G-Strings"
+   ],
+   [
+    "brief",
+    "Briefs"
+   ],
+   [
+    "crotchless",
+    "Open Back & Crotchless"
+   ],
+   [
+    "cheeky",
+    "Cheekies"
+   ]
+  ],
+  "garters": [
+   [
+    "garter-belt",
+    "Garter Belts"
+   ],
+   [
+    "leg-garter",
+    "Leg Garters"
+   ],
+   [
+    "harness",
+    "Harnesses"
+   ],
+   [
+    "body-harness",
+    "Body Harnesses"
+   ]
+  ],
+  "robes": [
+   [
+    "satin-robe",
+    "Satin Robes"
+   ],
+   [
+    "lace-robe",
+    "Lace Robes"
+   ],
+   [
+    "sheer-robe",
+    "Sheer Robes"
+   ],
+   [
+    "kimono",
+    "Kimonos"
+   ]
+  ],
+  "pajamas": [
+   [
+    "cami-set",
+    "Cami & Shorts Sets"
+   ],
+   [
+    "satin-pajamas",
+    "Satin Pajamas"
+   ],
+   [
+    "lace-pajamas",
+    "Lace Pajamas"
+   ],
+   [
+    "long-pajamas",
+    "Long Pajama Sets"
+   ]
+  ],
+  "slips": [
+   [
+    "slip-dress",
+    "Slip Dresses"
+   ],
+   [
+    "nightgown",
+    "Nightgowns"
+   ],
+   [
+    "satin-slip",
+    "Satin Slips"
+   ]
+  ],
+  "stockings": [
+   [
+    "thigh-highs",
+    "Thigh Highs"
+   ],
+   [
+    "lace-top-stockings",
+    "Lace Top Stockings"
+   ],
+   [
+    "fishnet-stockings",
+    "Fishnet Stockings"
+   ],
+   [
+    "tights",
+    "Tights"
+   ]
+  ],
+  "bodystockings": [
+   [
+    "bodystocking",
+    "Bodystockings"
+   ],
+   [
+    "fishnet-bodystocking",
+    "Fishnet Bodystockings"
+   ],
+   [
+    "crotchless-bodystocking",
+    "Open Crotch Bodystockings"
+   ]
+  ],
+  "costumes": [
+   [
+    "bunny",
+    "Bunny"
+   ],
+   [
+    "maid",
+    "Maid"
+   ],
+   [
+    "nurse",
+    "Nurse"
+   ],
+   [
+    "schoolteacher",
+    "Teacher & Secretary"
+   ],
+   [
+    "police",
+    "Police"
+   ],
+   [
+    "devil-angel",
+    "Devil & Angel"
+   ],
+   [
+    "cat",
+    "Kitty"
+   ],
+   [
+    "cheerleader",
+    "Cheerleader"
+   ],
+   [
+    "other-costume",
+    "Other Costumes"
+   ]
+  ],
+  "dresses": [
+   [
+    "bodycon-dress",
+    "Bodycon Dresses"
+   ],
+   [
+    "mini-dress",
+    "Mini Dresses"
+   ],
+   [
+    "sheer-dress",
+    "Sheer Dresses"
+   ],
+   [
+    "club-dress",
+    "Club Dresses"
+   ]
+  ],
+  "sets": [
+   [
+    "two-piece",
+    "Two Piece Sets"
+   ],
+   [
+    "three-piece",
+    "Three Piece Sets"
+   ],
+   [
+    "jumpsuit",
+    "Jumpsuits & Catsuits"
+   ]
+  ],
+  "bikinis": [
+   [
+    "bikini",
+    "Bikinis"
+   ],
+   [
+    "micro-bikini",
+    "Micro Bikinis"
+   ],
+   [
+    "one-piece",
+    "One Pieces"
+   ],
+   [
+    "cover-up",
+    "Cover Ups"
+   ]
+  ],
+  "chokers": [
+   [
+    "choker",
+    "Chokers"
+   ],
+   [
+    "collar",
+    "Collars"
+   ],
+   [
+    "leash-set",
+    "Collar & Leash Sets"
+   ]
+  ],
+  "body-jewelry": [
+   [
+    "body-chain",
+    "Body Chains"
+   ],
+   [
+    "waist-chain",
+    "Waist Chains"
+   ],
+   [
+    "nipple-jewelry",
+    "Nipple Jewelry"
+   ],
+   [
+    "anklet",
+    "Anklets"
+   ]
+  ],
+  "masks": [
+   [
+    "lace-mask",
+    "Lace Masks"
+   ],
+   [
+    "masquerade",
+    "Masquerade Masks"
+   ],
+   [
+    "blindfold",
+    "Blindfolds"
+   ]
+  ],
+  "gloves": [
+   [
+    "lace-gloves",
+    "Lace Gloves"
+   ],
+   [
+    "satin-gloves",
+    "Satin Gloves"
+   ],
+   [
+    "fishnet-gloves",
+    "Fishnet Gloves"
+   ],
+   [
+    "arm-sleeves",
+    "Arm Sleeves"
+   ]
+  ],
+  "pasties": [
+   [
+    "pasties",
+    "Pasties"
+   ],
+   [
+    "nipple-covers",
+    "Nipple Covers"
+   ],
+   [
+    "body-tape",
+    "Body Tape"
+   ]
+  ],
+  "extras": [
+   [
+    "extra",
+    "Extras"
+   ]
+  ]
+ },
+ "print": [
+  [
+   "plain",
+   "Plain"
+  ],
+  [
+   "floral",
+   "Floral"
+  ],
+  [
+   "polka-dot",
+   "Polka Dot"
+  ],
+  [
+   "leopard",
+   "Leopard & Animal"
+  ],
+  [
+   "hearts",
+   "Hearts"
+  ],
+  [
+   "stripes",
+   "Stripes"
+  ],
+  [
+   "pattern",
+   "Other Pattern"
+  ]
+ ],
+ "themes": [
+  [
+   "hearts",
+   "Hearts"
+  ],
+  [
+   "bows",
+   "Bows"
+  ],
+  [
+   "cherries",
+   "Cherries"
+  ],
+  [
+   "flowers",
+   "Flowers"
+  ],
+  [
+   "butterflies",
+   "Butterflies"
+  ],
+  [
+   "stars",
+   "Stars"
+  ],
+  [
+   "crosses",
+   "Crosses"
+  ],
+  [
+   "leopard",
+   "Leopard"
+  ],
+  [
+   "bunnies",
+   "Bunnies"
+  ],
+  [
+   "cats",
+   "Kitties"
+  ],
+  [
+   "devils",
+   "Devils"
+  ],
+  [
+   "angels",
+   "Angels"
+  ],
+  [
+   "valentine",
+   "Valentine's"
+  ],
+  [
+   "christmas",
+   "Christmas"
+  ],
+  [
+   "halloween",
+   "Halloween"
+  ]
+ ],
+ "cut": [
+  [
+   "strappy",
+   "Strappy"
+  ],
+  [
+   "cut-out",
+   "Cut-Out"
+  ],
+  [
+   "open-cup",
+   "Open Cup"
+  ],
+  [
+   "open-crotch",
+   "Open Crotch"
+  ],
+  [
+   "backless",
+   "Backless"
+  ],
+  [
+   "halter",
+   "Halter"
+  ],
+  [
+   "high-cut",
+   "High Cut"
+  ],
+  [
+   "high-waist",
+   "High-Waist"
+  ],
+  [
+   "push-up",
+   "Push-Up"
+  ],
+  [
+   "underwire",
+   "Underwire"
+  ],
+  [
+   "lace-up",
+   "Lace-Up"
+  ],
+  [
+   "ruched",
+   "Ruched"
+  ],
+  [
+   "slit",
+   "Slit"
+  ],
+  [
+   "plus-size",
+   "Plus Size"
+  ]
+ ],
+ "neck": [
+  [
+   "plunge",
+   "Plunge"
+  ],
+  [
+   "v-neck",
+   "V-Neck"
+  ],
+  [
+   "sweetheart",
+   "Sweetheart"
+  ],
+  [
+   "halter",
+   "Halter"
+  ],
+  [
+   "square",
+   "Square"
+  ],
+  [
+   "high-neck",
+   "High Neck"
+  ],
+  [
+   "off-shoulder",
+   "Off Shoulder"
+  ],
+  [
+   "strapless",
+   "Strapless"
+  ],
+  [
+   "none",
+   "None"
+  ]
+ ],
+ "sleeve": [
+  [
+   "sleeveless",
+   "Sleeveless"
+  ],
+  [
+   "short",
+   "Short"
+  ],
+  [
+   "long",
+   "Long"
+  ],
+  [
+   "sheer",
+   "Sheer"
+  ],
+  [
+   "none",
+   "None"
+  ]
+ ],
+ "length": [
+  [
+   "micro",
+   "Micro"
+  ],
+  [
+   "mini",
+   "Mini"
+  ],
+  [
+   "midi",
+   "Midi"
+  ],
+  [
+   "maxi",
+   "Maxi"
+  ],
+  [
+   "none",
+   "None"
+  ]
+ ],
+ "material": [
+  [
+   "lace",
+   "Lace"
+  ],
+  [
+   "mesh",
+   "Mesh"
+  ],
+  [
+   "satin",
+   "Satin"
+  ],
+  [
+   "silk",
+   "Silk"
+  ],
+  [
+   "velvet",
+   "Velvet"
+  ],
+  [
+   "faux-leather",
+   "Faux Leather"
+  ],
+  [
+   "latex",
+   "Latex & Vinyl"
+  ],
+  [
+   "fishnet",
+   "Fishnet"
+  ],
+  [
+   "cotton",
+   "Cotton"
+  ],
+  [
+   "ribbed",
+   "Ribbed"
+  ],
+  [
+   "feathers",
+   "Feathers & Fur"
+  ],
+  [
+   "rhinestone",
+   "Rhinestone"
+  ],
+  [
+   "pearl",
+   "Pearl"
+  ],
+  [
+   "chain",
+   "Chain"
+  ]
+ ],
+ "color": [
+  [
+   "black",
+   "Black"
+  ],
+  [
+   "white",
+   "White"
+  ],
+  [
+   "red",
+   "Red"
+  ],
+  [
+   "pink",
+   "Pink"
+  ],
+  [
+   "purple",
+   "Purple"
+  ],
+  [
+   "blue",
+   "Blue"
+  ],
+  [
+   "green",
+   "Green"
+  ],
+  [
+   "nude",
+   "Nude"
+  ],
+  [
+   "grey",
+   "Grey"
+  ],
+  [
+   "yellow",
+   "Yellow"
+  ],
+  [
+   "multi",
+   "Multi"
+  ]
+ ],
+ "vibe": [
+  [
+   "lace",
+   "Lace"
+  ],
+  [
+   "sheer",
+   "Sheer & Mesh"
+  ],
+  [
+   "satin",
+   "Satin & Silk"
+  ],
+  [
+   "leather",
+   "Leather & Latex"
+  ],
+  [
+   "strappy",
+   "Strappy & Cut-Out"
+  ],
+  [
+   "cute",
+   "Cute & Coquette"
+  ],
+  [
+   "bridal",
+   "Bridal & White"
+  ],
+  [
+   "dark",
+   "Goth & Dark"
+  ],
+  [
+   "plus",
+   "Plus Size"
+  ]
+ ]
+}
