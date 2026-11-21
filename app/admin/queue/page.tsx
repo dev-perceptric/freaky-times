@@ -44,7 +44,9 @@ export default function QueuePage() {
       if (incoming?.i?.length) {
         const r = await call('POST', { items: incoming.i.map(([id, title]) => ({ id, title })), source: incoming.s });
         history.replaceState(null, '', location.pathname);
-        setMsg(`Added ${r.newly} new product${r.newly === 1 ? '' : 's'}${r.duplicates ? ` (${r.duplicates} already on the list)` : ''}. You can close this tab.`);
+        setMsg(r.newly
+          ? `Added ${r.newly} new product${r.newly === 1 ? '' : 's'}${r.duplicates ? ` (${r.duplicates} were already imported or skipped)` : ''}. You can close this tab.`
+          : `The button worked, but there was nothing new: all ${r.duplicates} products on that page were already imported or skipped before. Try a different store or search.`);
         setCounts(r);
       } else {
         setCounts(await call('GET'));
