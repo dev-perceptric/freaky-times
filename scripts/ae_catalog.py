@@ -65,7 +65,7 @@ def size_key(s):
 
 def admin(method, params):
     req = urllib.request.Request(ADMIN_URL, data=json.dumps({'method': method, 'params': params}).encode(), method='POST',
-                                 headers={'Content-Type': 'application/json', 'X-Admin-Token': ADMIN_TOKEN})
+                                 headers={'Content-Type': 'application/json', 'X-Admin-Token': ADMIN_TOKEN, 'User-Agent': 'Mozilla/5.0 (FreakyTimes import)'})
     try:
         out = json.loads(urllib.request.urlopen(req, timeout=90).read())
     except urllib.error.HTTPError as e:

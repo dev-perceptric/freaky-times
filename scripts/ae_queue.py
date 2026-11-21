@@ -26,7 +26,7 @@ TOKEN = os.environ.get('ADMIN_TOKEN', 'proxy-injected')
 
 def call(method, path='', body=None):
     req = urllib.request.Request(URL + path, method=method, data=json.dumps(body).encode() if body is not None else None,
-                                 headers={'Content-Type': 'application/json', 'X-Admin-Token': TOKEN})
+                                 headers={'Content-Type': 'application/json', 'X-Admin-Token': TOKEN, 'User-Agent': 'Mozilla/5.0 (FreakyTimes import)'})
     try:
         return json.loads(urllib.request.urlopen(req, timeout=60).read())
     except urllib.error.HTTPError as e:

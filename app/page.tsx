@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { SHOP, collectionHref, coverOf, getCollection, mixed, productsIn } from '@/lib/catalog';
+import { COLLECTIONS, SHOP, collectionHref, coverOf, getCollection, mixed, productsIn } from '@/lib/catalog';
 import { RETURN_DAYS, WELCOME_PERCENT } from '@/lib/site';
 import ProductCard from '@/components/ProductCard';
 import Slideshow, { type Slide } from '@/components/Slideshow';
@@ -40,26 +40,26 @@ export default function Home() {
     const list = claim(picked(F.slides?.[key], 3, used));
     return list.length === 3 ? list.map((p) => p.photos![0].src) : fallback();
   };
-  const slides: Slide[] = [
-    { eyebrow: 'New lingerie every week', title: 'Lingerie for Freaky Times', cta: 'Shop Lingerie', href: collectionHref('lingerie'), alt: { cta: 'Shop All', href: collectionHref('all') }, images: slideImgs('lingerie', () => photos('lingerie-sets', 3, 2)) },
-    { eyebrow: 'One piece, whole mood', title: 'Bodysuits & Teddies', cta: 'Shop Bodysuits', href: collectionHref('bodysuits-teddies'), images: slideImgs('bodysuits-teddies', () => photos('bodysuits-teddies', 3, 1)) },
-    { eyebrow: 'Short, sheer and flowy', title: 'Babydolls & Chemises', cta: 'Shop Babydolls', href: collectionHref('babydolls-chemises'), images: slideImgs('babydolls-chemises', () => photos('babydolls-chemises', 3, 1)) },
-    { eyebrow: 'Pick a character', title: 'Costumes & Roleplay', cta: 'Shop Costumes', href: collectionHref('costumes-roleplay'), images: slideImgs('costumes-roleplay', () => photos('costumes-roleplay', 3, 0)) },
-  ].filter((s) => s.images.length === 3);
+  // Sections follow what the store actually has: the biggest categories lead the page.
+  const ranked = COLLECTIONS.filter((c) => !c.parent && !['themes', 'new', 'hidden'].includes(c.group))
+    .map((c) => ({ c, n: productsIn(c).filter((p) => p.photos?.length).length })).filter((x) => x.n > 0).sort((a, b) => b.n - a.n).map((x) => x.c);
+  const SLIDE_COPY: Record<string, [string, string]> = {
+    'lingerie-sets': ['New lingerie every week', 'Lingerie Sets'], 'bodysuits-teddies': ['One piece, whole mood', 'Bodysuits & Teddies'],
+    'babydolls-chemises': ['Short, sheer and flowy', 'Babydolls'], 'secretary-costumes': ['Office hours are over', 'Secretary Costumes'],
+    'maid-costumes': ['At your service', 'Maid Costumes'], 'bunny-costumes': ['Ears, tails and attitude', 'Bunny Costumes'],
+    'nurse-costumes': ['The doctor will see you now', 'Nurse Costumes'], 'costumes-roleplay': ['Pick a character', 'Costumes & Roleplay'],
+  };
+  const slides: Slide[] = ranked.slice(0, 4).map((c, n) => {
+    const [eyebrow, title] = SLIDE_COPY[c.slug] ?? ['Lingerie for freaky times', c.title];
+    return { eyebrow: n === 0 ? 'New drops every week' : eyebrow, title: n === 0 ? 'Lingerie for Freaky Times' : title, cta: `Shop ${c.title.replace(/ Costumes$/, '')}`, href: collectionHref(c.slug),
+      ...(n === 0 ? { alt: { cta: 'Shop All', href: collectionHref('all') } } : {}), images: slideImgs(c.slug, () => photos(c.slug, 3, n * 3)) };
+  }).filter((s) => s.images.length === 3);
 
-  const big = [
-    { slug: 'lingerie-sets', label: 'Lingerie Sets', skip: 6 },
-    { slug: 'corsets-bustiers', label: 'Corsets', skip: 2 },
-    { slug: 'robes-kimonos', label: 'Robes', skip: 1 },
-  ].filter((b) => productsIn(col(b.slug)).length)
+  const big = ranked.slice(0, 3).map((c, n) => ({ slug: c.slug, label: c.title, skip: 6 + n }))
     .map((b) => ({ ...b, img: claim(picked(F.tiles?.[b.slug], 1, used))[0]?.photos![0].src ?? coverOf(productsIn(col(b.slug)), b.skip) }));
 
   // [collection, label, which product photo to use]
-  const cats: [string, string, number][] = ([
-    ['lingerie-sets', 'Sets', 2], ['bodysuits-teddies', 'Bodysuits', 3], ['babydolls-chemises', 'Babydolls', 2], ['corsets-bustiers', 'Corsets', 1],
-    ['bras-bralettes', 'Bralettes', 1], ['panties-thongs', 'Panties', 1], ['garters-harnesses', 'Garters', 0], ['robes-kimonos', 'Robes', 2],
-    ['stockings-thigh-highs', 'Thigh Highs', 1], ['costumes-roleplay', 'Costumes', 1], ['bodycon-dresses', 'Dresses', 0], ['chokers-collars', 'Chokers', 0],
-  ] as [string, string, number][]).filter(([s]) => productsIn(col(s)).length);
+  const cats: [string, string, number][] = ranked.slice(0, 12).map((c, n) => [c.slug, c.title.replace(/ Costumes$/, ''), (n % 4) + 1]);
 
   // One row per category: hand-picked first, topped up from the collection.
   const row = (slug: string, n = 4) => {
@@ -77,9 +77,9 @@ export default function Home() {
   const trendingPicked = claim(picked(F.trending, 10, used));
   const trending = trendingPicked.length >= 4 ? trendingPicked : claim(productsIn(col('trending')).filter((p) => p.photos?.length && !used.has(p.slug)).slice(0, 10));
 
-  const rowsA = [row('lingerie-sets'), row('bodysuits-teddies'), row('babydolls-chemises')].filter((r) => r.list.length === 4);
-  const rowsB = [row('corsets-bustiers', 8), row('stockings-thigh-highs', 8), row('costumes-roleplay', 8)].filter((r) => r.list.length >= 4);
-  const rowsC = [row('robes-kimonos'), row('pajama-sets'), row('chokers-collars')].filter((r) => r.list.length === 4);
+  const rowsA = ranked.slice(0, 3).map((c) => row(c.slug)).filter((r) => r.list.length === 4);
+  const rowsB = ranked.slice(3, 6).map((c) => row(c.slug, 8)).filter((r) => r.list.length >= 4);
+  const rowsC = ranked.slice(6, 9).map((c) => row(c.slug)).filter((r) => r.list.length === 4);
   const Rows = ({ rows }: { rows: typeof rowsA }) => (
     <>
       {rows.map((r, n) => (
@@ -129,7 +129,7 @@ export default function Home() {
         </section>
       )}
 
-      {big.length === 3 && <section className="sec">
+      {big.length >= 2 && <section className="sec">
         <div className="wrap big-tiles">
           {big.map((b) => (
             <Link key={b.slug} href={collectionHref(b.slug)} className="big-tile">

@@ -81,6 +81,8 @@ export const COLLECTIONS: CollectionDef[] = [
   { slug: 'bunny-costumes', title: 'Bunny Costumes', group: 'costumes', test: and(cat('costumes'), or(sub('bunny'), named(/bunny|rabbit/i))), blurb: 'Ears, tails and attitude.' },
   { slug: 'maid-costumes', title: 'Maid Costumes', group: 'costumes', test: and(cat('costumes'), or(sub('maid'), named(/maid/i))), blurb: 'Lace aprons, frills and a feather duster energy.' },
   { slug: 'nurse-costumes', title: 'Nurse Costumes', group: 'costumes', test: and(cat('costumes'), or(sub('nurse'), named(/nurse/i))), blurb: 'The doctor will see you now.' },
+  { slug: 'secretary-costumes', title: 'Secretary & Teacher Costumes', group: 'costumes', test: and(cat('costumes'), or(sub('schoolteacher'), named(/secretary|teacher|office|boss/i))), blurb: 'Pencil skirts, sheer blouses and glasses. Office hours are over.' },
+  { slug: 'uniform-costumes', title: 'Police & Flight Attendant', group: 'costumes', test: and(cat('costumes'), or(sub('police'), named(/police|cop|flight|stewardess|attendant|pilot/i))), blurb: 'Badges, caps and uniforms that mean business.' },
   { slug: 'kitty-costumes', title: 'Kitty Costumes', group: 'costumes', test: and(cat('costumes'), or(sub('cat'), named(/\b(cat|kitty|kitten)\b/i))), blurb: 'Cat ears, collars and claws out.' },
 
   // Clubwear & swim
