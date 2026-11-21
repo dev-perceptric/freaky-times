@@ -20,15 +20,10 @@ BLOCKED = os.path.join(os.path.dirname(PICKS), 'ae_blocked.json')
 
 # Skip what can't be sold safely: kids' items, anything that hints at minors, sex toys (this is a lingerie store),
 # and copyrighted characters or brand logos.
+# Only skip kids' clothing and listings whose titles describe the wearer as a minor. Everything else comes in as is.
 SKIP = re.compile(
-    r"\b(school ?girl|student|teen|teens|teenage|young girl|little girl|loli|lolita|underage|jailbait|barely legal|virgin)\b|"
-    r"\b(vibrator|dildo|butt plug|anal|masturbat\w*|sex toy|sex toys|penis|cock ring|strap[- ]on|egg vibe|wand massager)\b|"
-    r"\b(kid|kids|child|children|toddler|infant|newborn|baby (girl|boy)|boys|girls'|maternity|pregnan|pet|dog clothes|(?<!baby )doll)\b|"
-    r"(nike|adidas|disney|hello ?kitty|sanrio|kuromi|my melody|cinnamoroll|marvel|pokemon|pikachu|barbie|harry potter|star wars|mickey|minnie|stitch|"
-    r"gucci|chanel|louis vuitton|supreme|nfl|nba|naruto|one piece(?! (swim|bodysuit|lingerie|teddy|bikini|dress|set))|dragon ball|jojo|spongebob|simpsons|anime|manga|hatsune|miku|sakura|minecraft|nyan|"
-    r"pop ?tart|pierce the veil|my chemical|nirvana|metallica|slipknot|ramones|misfits|house of 1000|corpse bride|nightmare before|tim burton|"
-    r"playboy|vans|carhartt|stussy|balenciaga|prada|dior|chrome hearts|ed hardy|juicy couture|von dutch|bratz|monster high|tokidoki|domo|"
-    r"invader zim|care bears|my little pony|garfield|snoopy|peanuts|sonic|mario|zelda|kirby|squishmallow|labubu|king von|trippie|curious george|attack on titan)",
+    r"\b(kid|kids|child|children|toddler|infant|newborn|baby (girl|boy)|boys|girls'|maternity|pregnan|pet|dog clothes)\b|"
+    r"\b(school ?girl|student|teen|teens|teenage|young girl|little girl|loli|lolita|underage|jailbait|barely legal)\b",
     re.I)
 
 KIDS = re.compile(r"\b(kid|kids|child|children|toddler|infant|newborn|baby (girl|boy)|boys|girls'|maternity|pregnan|pet|dog clothes|(?<!baby )doll)\b|"
