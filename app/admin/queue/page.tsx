@@ -2,10 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
-// The browser button collects every AliExpress product link on the page you're on and opens this page with them.
+// The browser button collects every AliExpress product on the page you're on (links, product cards, embedded frames,
+// and as a last resort the product numbers in the page's code) and opens this page with them.
 const BOOKMARKLET =
-  "javascript:(()=>{const m=new Map();document.querySelectorAll('a[href*=\"/item/\"]').forEach(a=>{const id=(a.href.match(/item\\/(\\d+)/)||[])[1];" +
-  "if(id&&!m.has(id))m.set(id,a.innerText.replace(/\\s+/g,' ').trim().slice(0,150))});if(!m.size)return alert('No products found here. Scroll down and try again.');" +
+  "javascript:(()=>{const m=new Map(),add=(id,t)=>{if(id&&(!m.has(id)||(!m.get(id)&&t)))m.set(id,(t||'').replace(/\\s+/g,' ').trim().slice(0,150))};" +
+  "const docs=[document];document.querySelectorAll('iframe').forEach(f=>{try{f.contentDocument&&docs.push(f.contentDocument)}catch(e){}});" +
+  "docs.forEach(d=>{d.querySelectorAll('a[href]').forEach(a=>{const h=a.href,x=(h.match(/\\/item\\/(?:[^/?#]*\\/)?(\\d{9,})/)||h.match(/[?&](?:productId|itemId|product_id)=(\\d{9,})/)||[])[1];" +
+  "if(x)add(x,a.innerText||a.title||a.getAttribute('aria-label')||(a.querySelector('img')||{}).alt)});" +
+  "d.querySelectorAll('[data-product-id],[data-productid],[data-item-id],[data-spm-anchor-id][productid]').forEach(e=>add(e.getAttribute('data-product-id')||e.getAttribute('data-productid')||e.getAttribute('data-item-id')||e.getAttribute('productid'),e.innerText));" +
+  "if(!m.size)for(const r of d.documentElement.innerHTML.matchAll(/(?:\\/item\\/|productId\\W{1,4}|itemId\\W{1,4})(\\d{12,})/g))add(r[1],'')});" +
+  "if(!m.size)return alert('No products found here. Scroll down so the products load, then try again.');" +
   "window.open('https://freakytimes.com/admin/queue#'+encodeURIComponent(JSON.stringify({s:location.href,i:[...m]})))})()";
 
 interface Counts { pending: number; added: number; skipped: number; total: number }
@@ -78,12 +84,12 @@ export default function QueuePage() {
           }}
         >
           <input type="password" placeholder="Admin token" value={token} onChange={(e) => setToken(e.target.value)}
-            style={{ flex: 1, padding: '12px', background: '#1a181a', color: 'inherit', border: '1px solid #444' }} />
+            style={{ flex: 1, padding: '12px', background: '#fff', color: 'var(--text)', border: '1.5px solid var(--line-strong)', borderRadius: 999, paddingLeft: 18 }} />
           <button className="btn" type="submit">Save</button>
         </form>
       )}
 
-      {msg && <p style={{ margin: '24px 0', padding: 16, background: '#1a181a', border: '1px solid #333' }}>{msg}</p>}
+      {msg && <p style={{ margin: '24px 0', padding: 16, background: '#fff', color: 'var(--text)', border: '1.5px solid var(--pink)', borderRadius: 12, fontWeight: 600 }}>{msg}</p>}
 
       {counts && (
         <p style={{ margin: '16px 0' }}>

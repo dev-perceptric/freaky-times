@@ -146,10 +146,29 @@ def name_for(title, word, used):
     return f'{name} {i}'
 
 
+def fill_titles(items):
+    """Some store pages hide product names, so the browser button only sends the number. Look those up."""
+    missing = [it for it in items if not (it.get('title') or '').strip()]
+    if not missing:
+        return
+    from ae_catalog import admin, result_of  # noqa: E402 (needs ADMIN_TOKEN)
+    print(f'Looking up {len(missing)} product names on AliExpress...')
+    for it in missing:
+        try:
+            res = result_of(admin('aliexpress.ds.product.get', {'product_id': str(it['id']), 'ship_to_country': 'US',
+                                                               'target_currency': 'USD', 'target_language': 'en'}), 'aliexpress.ds.product.get')
+            it['title'] = ((res or {}).get('ae_item_base_info_dto') or {}).get('subject') or ''
+        except SystemExit as e:
+            print(f'  {it["id"]}: {e}')
+        except Exception as e:  # noqa: BLE001
+            print(f'  {it["id"]}: {e}')
+
+
 def main():
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     items = json.load(open(sys.argv[1]))
+    fill_titles(items)
     picks = json.load(open(PICKS)) if os.path.exists(PICKS) else []
     have = {str(p['id']) for p in picks}
     have |= set(json.load(open(BLOCKED))) if os.path.exists(BLOCKED) else set()
