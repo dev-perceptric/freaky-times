@@ -67,12 +67,19 @@ Stripe allows lingerie and clothing. Keep sex toys off this store, since Stripe 
 
 Every push to `main` builds `ghcr.io/dev-perceptric/freaky-times` in GitHub Actions. The server's autodeploy container (set up from the blazed-kitty repo) updates any app in `/docker` that uses a `ghcr.io/dev-perceptric/` image.
 
-One-time setup on the server:
+One-time setup on the server (one paste, safe to run again):
 
-1. `sudo mkdir -p /docker/freaky-times` and copy `ops/docker-compose.yml` there.
-2. Make `/docker/freaky-times/.env` from `.env.example` and fill in the keys (Stripe, Resend, AliExpress, CJ, `ADMIN_TOKEN`, `NEXT_PUBLIC_SITE_URL=https://freakytimes.com`).
-3. `cd /docker/freaky-times && sudo docker compose up -d`.
-4. Point freakytimes.com at port 3001 in the reverse proxy, the same way blazedkitty.com is set up.
-5. Stripe Dashboard → Webhooks → add `https://freakytimes.com/api/stripe-webhook` with `checkout.session.completed` and `checkout.session.async_payment_succeeded`, and put the signing secret in `STRIPE_WEBHOOK_SECRET`.
-6. Stripe → Settings → Business → Public details: set the statement descriptor to something neutral like `FT GOODS`, since the FAQ promises a neutral name on card statements.
-7. If the image is private, the server needs a ghcr.io login (`sudo docker login ghcr.io`), the same one Blazed Kitty uses.
+```bash
+curl -fsSL https://raw.githubusercontent.com/dev-perceptric/freaky-times/main/ops/setup-server.sh | sudo bash
+```
+
+`ops/setup-server.sh` finds the running Blazed Kitty container and copies how it is wired up (Traefik labels, Caddy or nginx), creates `/docker/freaky-times` with `docker-compose.yml` and `.env` (copying the AliExpress, CJ and Resend keys from Blazed Kitty and making a new `ADMIN_TOKEN`), adds freakytimes.com to the same reverse proxy after a config test, starts the store and prints the admin links.
+
+After it runs:
+
+1. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` from the FreakyTimes Stripe account to `/docker/freaky-times/.env`, then `cd /docker/freaky-times && sudo docker compose up -d`.
+2. Stripe Dashboard → Webhooks → add `https://freakytimes.com/api/stripe-webhook` with `checkout.session.completed` and `checkout.session.async_payment_succeeded`.
+3. Stripe → Settings → Business → Public details: set the statement descriptor to something neutral like `FT GOODS`, since the FAQ promises a neutral name on card statements.
+4. AliExpress Open Platform → your app: add `https://freakytimes.com/api/aliexpress/callback` as a callback URL, then open the AliExpress link the script printed.
+
+`ops/docker-compose.yml` is a plain example of the same setup, for doing it by hand.
